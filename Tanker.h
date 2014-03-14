@@ -1,3 +1,4 @@
+#include "Ship.h"
 /*
 A Tanker is a ship with a large corgo capacity for fuel.
 It can be told an Island to load fuel at, and an Island to unload at.
@@ -18,6 +19,9 @@ If any protected or private members are shown here, then your class must also ha
 You should delete this comment.
 */
 
+class Island;
+
+class Tanker : public Ship {
 public:
 	// initialize, the output constructor message
 	Tanker(const std::string& name_, Point position_);
@@ -41,4 +45,16 @@ public:
 	
 	void update() override;
 	void describe() const override;
+    
+private:
+    enum Tanker_state_e {NO_CARGO_DESTINATIONS, UNLOADING, MOVING_TO_LOADING, LOADING, MOVING_TO_UNLOADING};
+    double cargo_capacity;
+    double cargo;
+    Tanker_state_e tanker_state;
+    Island *load_destination;
+    Island *unload_destination;
+    
+    void check_no_cargo_destination();
+    void start_cycle();
+};
 

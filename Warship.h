@@ -1,3 +1,5 @@
+#include "Ship.h"
+
 /* Warship class
 A Warship is a ship with firepower and range member variables, and some services for
 protected classes to manage many of the details of warship behavior. This is an
@@ -16,7 +18,7 @@ be kept together with your .cpp file for the component.
 You should delete this comment.
 */
 
-
+class Warship : public Ship {
 public:
 	// initialize, then output constructor message
 	Warship(const std::string& name_, Point position_, double fuel_capacity_, 
@@ -56,4 +58,18 @@ protected:
 
 	// get the target
 	Ship* get_target() const;
+    
+private:
+    enum Warship_state_e {ATTACKING, NOT_ATTACKING};
+    
+    int firepower;
+    double maximum_range;
+    Warship_state_e warship_state;
+    Ship* target_ptr;
+    
+    
+};
+
+
+
 

@@ -1,3 +1,215 @@
+#include "Ship.h"
+#include "Island.h"
+#include "Utility.h"
+#include "Model.h"
+#include <iostream>
+
+using std::string;
+using std::cout; using std::endl;
+
+
+
+Ship::Ship(const std::string& name_, Point position_, double fuel_capacity_, double maximum_speed_, double fuel_consumption_, int resistance_) : Sim_object(name_), Track_base(position_), fuel_capacity(fuel_capacity_), fuel(fuel_capacity_), maximum_speed(maximum_speed_), fuel_consumption(fuel_consumption_), resistance(resistance_), ship_state(STOPPED)
+{
+    cout << "Ship " << name_ << " constructed" << endl;
+}
+
+
+bool Ship::can_move() const
+{
+    return is_afloat() && ship_state != DEAD_IN_THE_WATER;
+}
+
+bool Ship::is_moving() const
+{
+    return ship_state == MOVING_TO_POSITION || ship_state == MOVING_ON_COURSE;
+}
+
+bool Ship::is_docked() const
+{
+    return ship_state == DOCKED;
+}
+
+
+bool Ship::is_afloat() const
+{
+    return ship_state != SINKING && ship_state != SUNK && ship_state != ON_THE_BOTTOM;
+}
+
+bool Ship::is_on_the_bottom() const
+{
+    return ship_state == ON_THE_BOTTOM;
+}
+
+bool Ship::can_dock(Island* island_ptr) const
+{
+    return ship_state == STOPPED && cartesian_distance(island_ptr->get_location(), get_location()) <= 0.1;
+}
+
+
+
+void Ship::describe() const
+{
+    cout << get_name() << " at " << get_location();
+    if (ship_state == SINKING)
+        cout <<" sinking"<< endl;
+    else if (ship_state == SUNK)
+        cout << " sunk" << endl;
+    else if (ship_state == ON_THE_BOTTOM)
+        cout << " on the bottom" << endl;
+    else {
+        cout << ", fuel: " << fuel << " tons, resistance: " << resistance << endl;
+        if (ship_state == MOVING_TO_POSITION)
+            cout << "Moving to " << destination << " on " << get_course_speed() << endl;
+        else if (ship_state == STOPPED)
+            cout << "Stopped" << endl;
+        else if (ship_state == DEAD_IN_THE_WATER)
+            cout << "Dead in the water" << endl;
+        else if (ship_state == MOVING_ON_COURSE)
+            cout << "Moving on " << get_course_speed() << endl;
+        else if (ship_state == DOCKED)
+            cout << "Docked at " << docked_at->get_name() << endl;
+    }
+}
+
+
+
+void Ship::broadcast_current_state()
+{
+    g_Model_ptr->notify_location(get_name(), get_location());
+}
+
+void Ship::set_destination_position_and_speed(Point destination_position, double speed)
+{
+    /*if (!can_move())
+        throw Error("Ship cannot move!");
+    if (speed > maximum_speed)
+        throw Error("Ship cannot go that fast!");
+    destination = destination_position;
+    set_speed(speed);
+    set_course(Compass_vector(get_location(), destination_position).direction);*/
+    destination = destination_position;
+    set_course_and_speed(Compass_vector(get_location(), destination_position).direction, speed);
+    ship_state = MOVING_TO_POSITION;
+}
+
+void Ship::set_course_and_speed(double course, double speed)
+{
+    if (!can_move())
+        throw Error("Ship cannot move!");
+    if (speed > maximum_speed)
+        throw Error("Ship cannot go that fast!");
+    set_course(course);
+    set_speed(speed);
+    cout << get_name() << " will sail on " << get_course_speed() << " to " << get_position() << endl;
+    ship_state = MOVING_ON_COURSE;
+}
+
+
+void Ship::stop()
+{
+    if (!can_move())
+        throw Error("Ship cannot move!");
+    set_speed(0.);
+    cout << get_name() << " stopping at " << get_position() << endl;
+    ship_state = STOPPED;
+}
+
+void Ship::dock(Island * island_ptr)
+{
+    if (!can_dock(island_ptr))
+        throw Error("Can't dock!");
+    set_position(island_ptr->get_location());
+    ship_state = DOCKED;
+    cout << get_name() << " docked at " << get_position() << endl;
+    docked_at = island_ptr;
+}
+
+void Ship::refuel()
+{
+    if (!is_docked())
+        throw Error("Must be docked!");
+    double fuel_needed = fuel_capacity - fuel;
+    if (fuel_needed < 0.005)
+        fuel = fuel_capacity;
+    else
+        fuel += docked_at->provide_fuel(fuel_needed);
+    cout << get_name() <<  " now has " << fuel << " tons of fuel" << endl;
+}
+
+void Ship::set_load_destination(Island *)
+{
+    throw Error("Cannot load at a destination!");
+}
+
+void Ship::set_unload_destination(Island *)
+{
+    throw Error("Cannot unload at a destination!");
+}
+
+void Ship::attack(Ship * in_target_ptr)
+{
+    throw Error("Cannot attack!");
+}
+
+void Ship::stop_attack()
+{
+    throw Error("Cannot attack!");
+}
+
+
+// Do we need to record the attacker_ptr ??????
+void Ship::receive_hit(int hit_force, Ship* attacker_ptr)
+{
+    resistance -= hit_force;
+    cout << get_name() << " hit with " << hit_force << ", resistance now " << resistance << endl;
+}
+
+
+Island* Ship::get_docked_Island() const
+{
+    return (ship_state == DOCKED) ? docked_at : nullptr;
+}
+
+void Ship::update()
+{
+    if (is_afloat()) {
+        if (resistance < 0) {
+            set_speed(0.);
+            ship_state = SINKING;
+            cout << get_name() << " sinking" << endl;
+        }
+        else {
+            if (is_moving()) {
+                calculate_movement();
+                cout << get_name() << " now at " << get_location() << endl;
+                g_Model_ptr->notify_location(get_name(), get_location());
+            }
+            else if (ship_state == STOPPED)
+                cout << get_name() << " stopped at " << get_location() << endl;
+            else if (is_docked())
+                cout <<  get_name() << " docked at " << get_location() << endl;
+            else if (ship_state == DEAD_IN_THE_WATER)
+                cout <<  get_name() << " dead in the water at " << get_location() << endl;
+        }
+    }
+    else if (ship_state == SINKING) {
+        ship_state = SUNK;
+        g_Model_ptr->notify_gone(get_name());
+        cout << get_name() << " sunk" << endl;
+    }
+    else if (ship_state == SUNK) {
+        ship_state = ON_THE_BOTTOM;
+        cout << get_name() << " on the bottom" << endl;
+    }
+    else if (is_on_the_bottom())
+        cout << get_name() << " on the bottom" << endl;
+}
+
+
+
+
+
 
 /*
 Define the destructor function even if it was declared as a pure virtual function.

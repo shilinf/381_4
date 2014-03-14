@@ -1,3 +1,8 @@
+#include "Geometry.h"
+#include "Sim_object.h"
+#include "Track_base.h"
+#include <string>
+
 /***** Ship Class *****/
 /* A Ship has a name, initial position, amount of fuel, and parameters 
 that govern its movement. It can be commanded to move to either a position or follow a course, or stop,
@@ -23,7 +28,9 @@ be kept together with your .cpp file for the component.
 You should delete this comment.
 */
 
+class Island;
 
+class Ship : public Sim_object, private Track_base {
 public:
 	// initialize, then output constructor message
 	Ship(const std::string& name_, Point position_, double fuel_capacity_, 
@@ -101,18 +108,36 @@ public:
 protected:
 	// future projects may need additional protected members
 
-	double get_maximum_speed() const;
+	double get_maximum_speed() const
+        {return maximum_speed;}
 	// return pointer to the Island currently docked at, or nullptr if not docked
 	Island* get_docked_Island() const;
 
 private:
+
+    enum Ship_state_e {MOVING_TO_POSITION, STOPPED, DEAD_IN_THE_WATER, MOVING_ON_COURSE, DOCKED, SINKING, SUNK, ON_THE_BOTTOM};
+    double fuel_capacity;
 	double fuel;						// Current amount of fuel
+    double maximum_speed;
 	double fuel_consumption;			// tons/nm required
-	Point destination;					// Current destination if any
+    int resistance;
+    Ship_state_e ship_state;
+    Point destination;					// Current destination if any
+    Island *docked_at;
+
+
+
+
 
 	// Updates position, fuel, and movement_state, assuming 1 time unit (1 hr)
 	void calculate_movement();
 
 	// disallow copy/move, construction or assignment
+
+};
+
+
+
+
 
 
