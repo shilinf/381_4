@@ -99,8 +99,9 @@ void Ship::set_course_and_speed(double course, double speed)
         throw Error("Ship cannot move!");
     if (speed > maximum_speed)
         throw Error("Ship cannot go that fast!");
-    set_course(course);
-    set_speed(speed);
+    //set_course(course);
+    //set_speed(speed);
+    set_course_speed(Course_speed(course, speed));
     cout << get_name() << " will sail on " << get_course_speed() << " to " << get_position() << endl;
     ship_state = MOVING_ON_COURSE;
 }

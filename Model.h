@@ -1,3 +1,9 @@
+#ifndef MODEL_H
+#define MODEL_H
+
+#include <string>
+#include <map>
+#include <set>
 /*
 Model is part of a simplified Model-View-Controller pattern.
 Model keeps track of the Sim_objects in our little world. It is the only
@@ -21,6 +27,11 @@ You should delete this comment.
 
 // Declare the global model pointer
 class Model;
+class Sim_object;
+class Ship;
+class View;
+class Island;
+struct Point;
 extern Model* g_Model_ptr;
 
 class Model {
@@ -77,8 +88,14 @@ public:
 	
 private:
 	int time;		// the simulated time
-
+    std::map<std::string, Sim_object *> object_container;
+    std::map<std::string, Island *> island_container;
+    std::map<std::string, Ship *> ship_container;
+    std::set<View*> view_container;
 
 	// disallow copy/move construction or assignment
 };
+
+
+#endif
 

@@ -1,3 +1,7 @@
+#ifndef TANKER_H
+#define TANKER_H
+
+
 #include "Ship.h"
 /*
 A Tanker is a ship with a large corgo capacity for fuel.
@@ -58,3 +62,5 @@ private:
     void start_cycle();
 };
 
+
+#endif

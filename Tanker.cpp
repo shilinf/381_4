@@ -1,4 +1,5 @@
 #include "Tanker.h"
+#include "Ship.h"
 #include "Utility.h"
 #include "Island.h"
 #include <iostream>

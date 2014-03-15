@@ -1,3 +1,7 @@
+#ifndef WARSHIP_H
+#define WARSHIP_H
+
+
 #include "Ship.h"
 
 /* Warship class
@@ -72,4 +76,4 @@ private:
 
 
 
-
+#endif

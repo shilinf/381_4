@@ -1,3 +1,7 @@
+#ifndef SHIP_H
+#define SHIP_H
+
+
 #include "Geometry.h"
 #include "Sim_object.h"
 #include "Track_base.h"
@@ -136,7 +140,7 @@ private:
 
 };
 
-
+#endif
 
 
 

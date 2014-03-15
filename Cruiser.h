@@ -1,3 +1,7 @@
+#ifndef CRUISER_H
+#define CRUISER_H
+
+
 #include "Warship.h"
 
 
@@ -25,3 +29,4 @@ public:
     void receive_hit(int hit_force, Ship* attacker_ptr) override;
 };
 
+#endif

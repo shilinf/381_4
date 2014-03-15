@@ -1,4 +1,5 @@
 #include "Island.h"
+#include "Model.h"
 #include <iostream>
 #include <string>
 
@@ -44,3 +45,7 @@ void Island::describe() const
 
 
 
+void Island::broadcast_current_state()
+{
+    g_Model_ptr->notify_location(get_name(), position);
+}

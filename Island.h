@@ -1,3 +1,6 @@
+#ifndef ISLAND_H
+#define ISLAND_H
+
 #include "Sim_object.h"
 #include "Geometry.h"
 /***** Island Class *****/
@@ -44,3 +47,6 @@ private:
     double production_rate;
 	// forbid  copy/move, construction/assignment
 };
+
+#endif
+
