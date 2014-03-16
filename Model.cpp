@@ -52,7 +52,8 @@ bool Model::is_name_in_use(const std::string& name) const
 
 bool Model::is_island_present(const std::string& name) const
 {
-    return island_container.find(name.substr(0, 2)) != island_container.end();
+    auto map_pair = island_container.find(name.substr(0, 2));
+    return map_pair != island_container.end() && map_pair->second->get_name() == name;
 }
 
 void Model::add_island(Island* new_island)
@@ -72,7 +73,8 @@ Island* Model::get_island_ptr(const std::string& name) const
 
 bool Model::is_ship_present(const std::string& name) const
 {
-    return ship_container.find(name.substr(0, 2)) != ship_container.end();
+    auto map_pair = ship_container.find(name.substr(0, 2));
+    return map_pair != ship_container.end() && map_pair->second->get_name() == name;
 }
 
 // how to update view? ????
