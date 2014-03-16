@@ -30,7 +30,7 @@ void Warship::attack(Ship* target_ptr_)
 {
     if (!is_afloat())
         throw Error("Cannot attack!");
-    if (target_ptr == target_ptr_)
+    if (this == target_ptr_)
         throw Error("Warship may not attack itself!");
     if (target_ptr_ == target_ptr)
         throw Error("Already attacking this target!");
