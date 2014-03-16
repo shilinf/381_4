@@ -106,9 +106,8 @@ void View::draw()
             cout << output[j][size - i - 1];
         cout << endl;
     }
-    cout << "  ";
     for (int i = 0; i <= (size-1)/3 ; i++) {
-        cout << setw(4) << origin.x + 3 * scale * i << "  ";
+        cout << "  " << setw(4) << origin.x + 3 * scale * i;
     }
     cout << endl;
     cout.flags(old_settings);
