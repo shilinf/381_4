@@ -33,6 +33,7 @@ void Tanker::set_course_and_speed(double course, double speed)
 
 void Tanker::stop()
 {
+    Ship::stop();
     load_destination = nullptr;
     unload_destination = nullptr;
     tanker_state = NO_CARGO_DESTINATIONS;
