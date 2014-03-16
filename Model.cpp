@@ -42,6 +42,7 @@ Model::~Model()
 {
     // not sure whether this can work....
     for_each(object_container.begin(), object_container.end(), [](pair<string, Sim_object *> object_pair) {delete object_pair.second;});
+    cout << "Model destructed" << endl;
 }
 
 bool Model::is_name_in_use(const std::string& name) const

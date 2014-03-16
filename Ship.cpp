@@ -130,9 +130,10 @@ void Ship::refuel()
     double fuel_needed = fuel_capacity - fuel;
     if (fuel_needed < 0.005)
         fuel = fuel_capacity;
-    else
+    else {
         fuel += docked_at->provide_fuel(fuel_needed);
-    cout << get_name() <<  " now has " << fuel << " tons of fuel" << endl;
+        cout << get_name() <<  " now has " << fuel << " tons of fuel" << endl;
+    }
 }
 
 void Ship::set_load_destination(Island *)
