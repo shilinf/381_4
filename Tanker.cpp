@@ -74,7 +74,7 @@ void Tanker::set_load_destination(Island* destination)
     if (destination == unload_destination)
         throw Error("Load and unload cargo destinations are the same!");
     cout <<  get_name() << " will load at " << destination->get_name() << endl;
-    if (destination)
+    if (unload_destination)
         start_cycle();
 }
 
