@@ -52,7 +52,7 @@ void Warship::update()
         if (!is_afloat() || !target_ptr->is_afloat())
             stop_attack();
         else
-            cout << get_name() << " is attacking" << endl;
+            cout << get_name() << " is attacking " << endl;
     }
 }
 

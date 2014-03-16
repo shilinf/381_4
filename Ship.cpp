@@ -81,29 +81,26 @@ void Ship::broadcast_current_state()
 
 void Ship::set_destination_position_and_speed(Point destination_position, double speed)
 {
-    /*if (!can_move())
-        throw Error("Ship cannot move!");
-    if (speed > maximum_speed)
-        throw Error("Ship cannot go that fast!");
     destination = destination_position;
-    set_speed(speed);
-    set_course(Compass_vector(get_location(), destination_position).direction);*/
-    destination = destination_position;
-    set_course_and_speed(Compass_vector(get_location(), destination_position).direction, speed);
+    check_course_speed(Compass_vector(get_location(), destination_position).direction, speed);
+    cout << get_name() << " will sail on " << get_course_speed() << " to " << destination << endl;
     ship_state = MOVING_TO_POSITION;
 }
 
 void Ship::set_course_and_speed(double course, double speed)
 {
+    check_course_speed(course, speed);
+    cout << get_name() << " will sail on " << get_course_speed() << endl;
+    ship_state = MOVING_ON_COURSE;
+}
+
+void Ship::check_course_speed(double course, double speed)
+{
     if (!can_move())
         throw Error("Ship cannot move!");
     if (speed > maximum_speed)
         throw Error("Ship cannot go that fast!");
-    //set_course(course);
-    //set_speed(speed);
     set_course_speed(Course_speed(course, speed));
-    cout << get_name() << " will sail on " << get_course_speed() << " to " << get_position() << endl;
-    ship_state = MOVING_ON_COURSE;
 }
 
 

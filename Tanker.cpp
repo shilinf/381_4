@@ -70,10 +70,10 @@ void Tanker::set_load_destination(Island* destination)
 {
     check_no_cargo_destination();
     load_destination = destination;
+    cout <<  get_name() << " will load at " << destination->get_name() << endl;
     if (unload_destination) {
         if (destination == unload_destination)
             throw Error("Load and unload cargo destinations are the same!");
-        cout <<  get_name() << " will load at " << destination->get_location() << endl;
         start_cycle();
     }
 }
@@ -84,10 +84,10 @@ void Tanker::set_unload_destination(Island* destination)
 {
     check_no_cargo_destination();
     unload_destination = destination;
+    cout << get_name() << " will unload at " << destination->get_name() << endl;
     if (load_destination) {
         if (destination == load_destination)
             throw Error("Load and unload cargo destinations are the same!");
-        cout << get_name() << " will unload at " << destination->get_location() << endl;
         start_cycle();
     }
 }
@@ -100,12 +100,10 @@ void Tanker::start_cycle()
         else if (get_docked_Island() == unload_destination)
             tanker_state = UNLOADING;
     }
-    else if (!is_moving()) {
-        if (cargo == 0. && can_dock(load_destination))
-            tanker_state = LOADING;
-        else if (cargo > 0. && can_dock(unload_destination))
-            tanker_state = UNLOADING;
-    }
+    else if (cargo == 0. && can_dock(load_destination))
+        tanker_state = LOADING;
+    else if (cargo > 0. && can_dock(unload_destination))
+        tanker_state = UNLOADING;
     else if (cargo == 0.) {
         Ship::set_destination_position_and_speed(load_destination->get_location(), get_maximum_speed());
         tanker_state = MOVING_TO_LOADING;
@@ -170,11 +168,6 @@ void Tanker::update()
             break;
     }
 }
-
-
-
-
-
 
 void Tanker::check_no_cargo_destination()
 {

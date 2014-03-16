@@ -7,13 +7,15 @@
 #include <iostream>
 #include <algorithm>
 #include <functional>
+#include <vector>
 
 using std::string;
 using std::cout; using std::endl;
 using std::merge; using std::inserter;
 using std::pair; using std::make_pair;
-using std::mem_fn;
+using std::mem_fn; using std::bind;
 using std::placeholders::_1; using std::ref;
+using std::map; using std::vector;
 
 Model* g_Model_ptr = nullptr;
 
@@ -39,7 +41,7 @@ Model::Model() : time(0){
 Model::~Model()
 {
     // not sure whether this can work....
-    //for_each(object_container.begin(), object_container.end(), [](pair<string, Sim_object *> object_pair) {delete object_pair.second;});
+    for_each(object_container.begin(), object_container.end(), [](pair<string, Sim_object *> object_pair) {delete object_pair.second;});
 }
 
 bool Model::is_name_in_use(const std::string& name) const
@@ -92,28 +94,32 @@ Ship* Model::get_ship_ptr(const std::string& name) const
                               
 void Model::describe() const
 {
-    //for_each(object_container.begin(), object_container.end(), mem_fn(&Sim_object::describe));
+    for_each(object_container.begin(), object_container.end(), bind(&Sim_object::describe, bind(& map<string, Sim_object *>::value_type::second, _1)));
 }
 
 void Model::update()
 {
     ++time;
-    //for_each(object_container.begin(), object_container.end(), mem_fn(&Sim_object::update));
+    for_each(object_container.begin(), object_container.end(), bind(&Sim_object::update, bind(& map<string, Sim_object *>::value_type::second, _1)));
+    vector<string> sunk_ships;
     for (auto ship_pair : ship_container) {
         Ship * ship_ptr = ship_pair.second;
         if (ship_ptr->is_on_the_bottom()) {
             string key = ship_ptr->get_name().substr(0, 2);
-            ship_container.erase(ship_container.find(key));
-            object_container.erase(object_container.find(key));
+            sunk_ships.push_back(key);
             delete ship_ptr;
         }
+    }
+    for (string key : sunk_ships) {
+        ship_container.erase(ship_container.find(key));
+        object_container.erase(object_container.find(key));
     }
 }
 
 void Model::attach(View* view)
 {
     view_container.insert(view);
-    for_each(object_container.begin(), object_container.end(), mem_fn(&Sim_object::broadcast_current_state));
+    for_each(object_container.begin(), object_container.end(), bind(&Sim_object::broadcast_current_state, bind(& map<string, Sim_object *>::value_type::second, _1)));
 }
 
 

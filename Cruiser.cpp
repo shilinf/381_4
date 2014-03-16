@@ -17,11 +17,13 @@ Cruiser::~Cruiser()
 void Cruiser::update()
 {
     Warship::update();
-    if (target_in_range())
-        fire_at_target();
-    else {
-        cout << get_name() << " target is out of range" << endl;
-        stop_attack();
+    if (is_attacking()) {
+        if (target_in_range())
+            fire_at_target();
+        else {
+            cout << get_name() << " target is out of range" << endl;
+            stop_attack();
+        }
     }
 }
 

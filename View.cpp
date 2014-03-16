@@ -3,9 +3,14 @@
 #include "Utility.h"
 #include <cmath>
 #include <iostream>
+#include <vector>
+#include <iomanip>
 
 using std::string;
 using std::cout; using std::endl;
+using std::make_pair;
+using std::vector;
+using std::ios; using std::setw;
 
 
 View::View()
@@ -53,29 +58,64 @@ void View::set_defaults()
 
 void View::update_location(const std::string& name, Point location)
 {
-
-
-
+    auto pair_it = points.find(name);
+    if (pair_it != points.end())
+        points.erase(pair_it);
+    points.insert(make_pair(name, location));
 }
 
 void View::update_remove(const std::string& name)
 {
-
-
+    points.erase(points.find(name));
 }
 
 void View::draw()
 {
-
-
-
+    cout << "Display size: " <<size << ", scale: " << scale << ", origin: " << origin << endl;
+    vector< vector<string> > output(size, vector<string>(size, ". "));
+    bool exist_out_of_map = false;
+    for (auto map_pair : points) {
+        int x, y;
+        if (get_subscripts(x, y, map_pair.second)) {
+            if (output[x][y] == ". ")
+                output[x][y] = map_pair.first.substr(0, 2);
+            else
+                output[x][y] = "* ";
+        }
+        else {
+            if (exist_out_of_map)
+                cout << ", " << map_pair.first;
+            else {
+                cout << map_pair.first;
+                exist_out_of_map = true;
+            }
+        }
+    }
+    if (exist_out_of_map)
+        cout << " outside the map" << endl;
+    
+    cout.setf(ios::fixed, ios::floatfield); // set fixed floating format
+    cout.precision(0);
+    for (int i = 0; i < size; i++) {
+        if ((size - i) % 3 == 1)
+            cout << setw(4) << origin.y + scale * (size - i - 1) << ' ';
+        else
+            cout << "     ";
+        for (int j = 0; j < size; j++)
+            cout << output[j][size - i - 1];
+        cout << endl;
+    }
+    cout << "  ";
+    for (int i = 0; i <= (size-1)/3 ; i++) {
+        cout << setw(4) << origin.x + 3 * scale * i << "  ";
+    }
+    cout << endl;
+    cout.setf(0, ios::floatfield);
 }
 
 void View::clear()
 {
-
-
-
+    points.clear();
 }
 
 

@@ -135,6 +135,9 @@ private:
 
 	// Updates position, fuel, and movement_state, assuming 1 time unit (1 hr)
 	void calculate_movement();
+    void check_course_speed(double course, double speed);
+
+
 
 	// disallow copy/move, construction or assignment
 

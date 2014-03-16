@@ -3,6 +3,7 @@
 
 #include "Geometry.h"
 #include <string>
+#include <map>
 
 /* *** View class ***
 The View class encapsulates the data and functions needed to generate the map
@@ -36,7 +37,6 @@ If any protected or private members are shown here, then your class must also ha
 and use them as intended.
 You should delete this comment.
 */
-
 
 class View {
 public:
@@ -75,12 +75,12 @@ private:
 	int size;			// current size of the display
 	double scale;		// distance per cell of the display
 	Point origin;		// coordinates of the lower-left-hand corner
-				
+    std::map<std::string, Point> points;
+
 	// Calculate the cell subscripts corresponding to the location parameter, using the 
 	// current size, scale, and origin of the display. 
 	// Return true if the location is within the map, false if not
-	bool get_subscripts(int &ix, int &iy, Point location); 
-
+	bool get_subscripts(int &ix, int &iy, Point location);
 };
 
 #endif
