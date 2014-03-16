@@ -19,6 +19,7 @@ Island::~Island()
 double Island::provide_fuel(double request)
 {
     double provided_amount = (request > fuel) ? fuel : request;
+    fuel -= provided_amount;
     cout << "Island " << get_name() << " supplied " << provided_amount << " tons of fuel" << endl;
     return provided_amount;
 }

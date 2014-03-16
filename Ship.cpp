@@ -119,7 +119,7 @@ void Ship::dock(Island * island_ptr)
         throw Error("Can't dock!");
     set_position(island_ptr->get_location());
     ship_state = DOCKED;
-    cout << get_name() << " docked at " << get_position() << endl;
+    cout << get_name() << " docked at " << island_ptr->get_name() << endl;
     docked_at = island_ptr;
 }
 
