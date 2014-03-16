@@ -71,11 +71,12 @@ void Tanker::set_load_destination(Island* destination)
 {
     check_no_cargo_destination();
     load_destination = destination;
-    if (destination == unload_destination)
-        throw Error("Load and unload cargo destinations are the same!");
     cout <<  get_name() << " will load at " << destination->get_name() << endl;
-    if (unload_destination)
+    if (unload_destination) {
+        if (destination == unload_destination)
+            throw Error("Load and unload cargo destinations are the same!");
         start_cycle();
+    }
 }
 
 
@@ -84,11 +85,12 @@ void Tanker::set_unload_destination(Island* destination)
 {
     check_no_cargo_destination();
     unload_destination = destination;
-    if (destination == load_destination)
-        throw Error("Load and unload cargo destinations are the same!");
     cout << get_name() << " will unload at " << destination->get_name() << endl;
-    if (load_destination)
+    if (load_destination) {
+        if (destination == load_destination)
+            throw Error("Load and unload cargo destinations are the same!");
         start_cycle();
+    }
 }
 
 void Tanker::start_cycle()
