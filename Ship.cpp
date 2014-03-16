@@ -186,7 +186,7 @@ void Ship::update()
             else if (ship_state == STOPPED)
                 cout << get_name() << " stopped at " << get_location() << endl;
             else if (is_docked())
-                cout <<  get_name() << " docked at " << get_location() << endl;
+                cout <<  get_name() << " docked at " << docked_at->get_name() << endl;
             else if (ship_state == DEAD_IN_THE_WATER)
                 cout <<  get_name() << " dead in the water at " << get_location() << endl;
         }
