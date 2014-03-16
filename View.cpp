@@ -11,7 +11,7 @@ using std::cout; using std::endl;
 using std::make_pair;
 using std::vector;
 using std::ios; using std::setw;
-
+using std::streamsize;
 
 View::View()
 {
@@ -93,7 +93,8 @@ void View::draw()
     }
     if (exist_out_of_map)
         cout << " outside the map" << endl;
-    
+    ios::fmtflags old_settings = cout.flags(); //save previous format flags
+    streamsize old_precision = cout.precision();
     cout.setf(ios::fixed, ios::floatfield); // set fixed floating format
     cout.precision(0);
     for (int i = 0; i < size; i++) {
@@ -110,7 +111,8 @@ void View::draw()
         cout << setw(4) << origin.x + 3 * scale * i << "  ";
     }
     cout << endl;
-    cout.setf(0, ios::floatfield);
+    cout.flags(old_settings);
+    cout.precision(old_precision);
 }
 
 void View::clear()
