@@ -157,7 +157,8 @@ void Controller::set_ship_to_position()
 
 void Controller::set_ship_destination_island()
 {
-    target_ship->set_destination_position_and_speed(read_get_island()->get_location(), read_check_speed());
+    Point island_location = read_get_island()->get_location();
+    target_ship->set_destination_position_and_speed(island_location, read_check_speed());
 }
 
 void Controller::set_ship_load_island()
