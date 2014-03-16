@@ -6,12 +6,12 @@ using std::cout; using std::endl;
 
 Cruiser::Cruiser(const std::string& name_, Point position_) : Warship(name_, position_, 1000., 20., 10., 6, 3, 15.)
 {
-    cout << "Cruiser " << get_name() << " destructed" << endl;
+    cout << "Cruiser " << get_name() << " constructed" << endl;
 }
 
 Cruiser::~Cruiser()
 {
-    cout << "Cruiser " << get_name() << " constructed" << endl;
+    cout << "Cruiser " << get_name() << " destructed" << endl;
 }
 
 void Cruiser::update()
