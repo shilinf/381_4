@@ -249,6 +249,3 @@ Island* Controller::read_get_island()
     cin >> island_name;
     return g_Model_ptr->get_island_ptr(island_name);
 }
-
-
-

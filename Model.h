@@ -18,13 +18,14 @@ when asked to do so by an object, tells all the Views whenever anything changes 
 Model also provides facilities for looking up objects given their name.
 */
 
-// Declare the global model pointer
 class Model;
 class Sim_object;
 class Ship;
 class View;
 class Island;
 struct Point;
+
+// Declare the global model pointer
 extern Model* g_Model_ptr;
 
 class Model {

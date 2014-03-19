@@ -181,7 +181,7 @@ void Ship::update()
             if (is_moving()) {
                 calculate_movement();
                 cout << get_name() << " now at " << get_location() << endl;
-                g_Model_ptr->notify_location(get_name(), get_location());
+                broadcast_current_state();
             }
             else if (ship_state == STOPPED)
                 cout << get_name() << " stopped at " << get_location() << endl;

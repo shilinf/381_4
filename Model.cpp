@@ -1,4 +1,5 @@
 #include "Model.h"
+#include "Sim_object.h"
 #include "Island.h"
 #include "Ship.h"
 #include "Ship_factory.h"
@@ -31,8 +32,6 @@ Model::Model() : time(0){
 	ship_container["Xe"] = create_ship("Xerxes", "Cruiser", Point (25, 25));
 	ship_container["Va"] = create_ship("Valdez", "Tanker", Point (30, 30));
     
-    
-    // check whether this merge works fine
     copy(island_container.begin(), island_container.end(), inserter(object_container, object_container.begin()));
     copy(ship_container.begin(), ship_container.end(), inserter(object_container, object_container.begin()));
 	cout << "Model constructed" << endl;
@@ -41,7 +40,8 @@ Model::Model() : time(0){
 Model::~Model()
 {
     // not sure whether this can work....
-    for_each(object_container.begin(), object_container.end(), [](pair<string, Sim_object *> object_pair) {delete object_pair.second;});
+    for_each(object_container.begin(), object_container.end(),
+             [](pair<string, Sim_object *> object_pair) {delete object_pair.second;});
     cout << "Model destructed" << endl;
 }
 
@@ -97,13 +97,17 @@ Ship* Model::get_ship_ptr(const std::string& name) const
                               
 void Model::describe() const
 {
-    for_each(object_container.begin(), object_container.end(), bind(&Sim_object::describe, bind(& map<string, Sim_object *>::value_type::second, _1)));
+    for_each(object_container.begin(), object_container.end(),
+             bind(&Sim_object::describe,
+                  bind(& map<string, Sim_object *>::value_type::second, _1)));
 }
 
 void Model::update()
 {
     ++time;
-    for_each(object_container.begin(), object_container.end(), bind(&Sim_object::update, bind(& map<string, Sim_object *>::value_type::second, _1)));
+    for_each(object_container.begin(), object_container.end(),
+             bind(&Sim_object::update,
+                  bind(& map<string, Sim_object *>::value_type::second, _1)));
     vector<string> sunk_ships;
     for (auto ship_pair : ship_container) {
         Ship * ship_ptr = ship_pair.second;
@@ -122,31 +126,24 @@ void Model::update()
 void Model::attach(View* view)
 {
     view_container.insert(view);
-    for_each(object_container.begin(), object_container.end(), bind(&Sim_object::broadcast_current_state, bind(& map<string, Sim_object *>::value_type::second, _1)));
+    for_each(object_container.begin(), object_container.end(),
+             bind(&Sim_object::broadcast_current_state,
+                  bind(& map<string, Sim_object *>::value_type::second, _1)));
 }
-
 
 void Model::detach(View* view)
 {
     view_container.erase(view_container.find(view));
 }
 
-
 void Model::notify_location(const std::string& name, Point location)
 {
-    for_each(view_container.begin(), view_container.end(), bind(&View::update_location, _1, ref(name), ref(location)));
+    for_each(view_container.begin(), view_container.end(),
+             bind(&View::update_location, _1, ref(name), ref(location)));
 }
-
 
 void Model::notify_gone(const std::string& name)
 {
-    for_each(view_container.begin(), view_container.end(), bind(&View::update_remove, _1, ref(name)));
+    for_each(view_container.begin(), view_container.end(),
+             bind(&View::update_remove, _1, ref(name)));
 }
-
-
-
-
-
-
-
-
