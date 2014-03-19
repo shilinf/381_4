@@ -99,10 +99,14 @@ void Tanker::start_cycle()
         else if (get_docked_Island() == unload_destination)
             tanker_state = UNLOADING;
     }
-    else if (cargo == 0. && can_dock(load_destination))
+    else if (cargo == 0. && can_dock(load_destination)) {
+        dock(load_destination);
         tanker_state = LOADING;
-    else if (cargo > 0. && can_dock(unload_destination))
+    }
+    else if (cargo > 0. && can_dock(unload_destination)) {
+        dock(load_destination);
         tanker_state = UNLOADING;
+    }
     else if (cargo == 0.) {
         Ship::set_destination_position_and_speed(load_destination->get_location(), get_maximum_speed());
         tanker_state = MOVING_TO_LOADING;

@@ -8,14 +8,7 @@ This class is responsible for controlling the Model and View according to intera
 with the user.
 */
 
-/* 
-*** This skeleton file shows the required public and protected interface for the class, which you may not modify. 
-If any protected or private members are shown here, then your class must also have them and use them as intended.
-You should delete this comment.
-*/
 
-// May need these ???????
-class Model;
 class View;
 class Ship;
 class Island;

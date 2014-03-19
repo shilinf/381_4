@@ -10,18 +10,6 @@ protected classes to manage many of the details of warship behavior. This is an
 abstract base class, so concrete classes derived from Warship must be declared.
 */
 
-/* 
-This skeleton file shows the required public and protected interface for the class, 
-which you may not modify.
-If no protected members are shown, there must be none in your version. 
-If any protected or private members are shown here, then your class 
-must also have them and use them as intended.
-You may define simple reader functions in the class declaration if you wish 
-by changing the prototype to the definition. Your .h file for a component will always
-be kept together with your .cpp file for the component.
-You should delete this comment.
-*/
-
 class Warship : public Ship {
 public:
 	// initialize, then output constructor message
@@ -65,13 +53,10 @@ protected:
     
 private:
     enum Warship_state_e {ATTACKING, NOT_ATTACKING};
-    
     int firepower;
     double maximum_range;
     Warship_state_e warship_state;
     Ship* target_ptr;
-    
-    
 };
 
 

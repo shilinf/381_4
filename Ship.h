@@ -22,16 +22,6 @@ The is a "fat interface" for the capabilities of derived types of Ships. These
 functions are implemented in this class to throw an Error exception.
 */
 
-/* 
-This skeleton file shows the required public and protected interface for the class, which you may not modify. 
-If no protected members are shown, there must be none in your version. 
-If any protected or private members are shown here, then your class must also have them and use them as intended.
-You may define simple reader functions in the class declaration if you wish 
-by changing the prototype to the definition. Your .h file for a component will always
-be kept together with your .cpp file for the component.
-You should delete this comment.
-*/
-
 class Island;
 
 class Ship : public Sim_object, private Track_base {
@@ -118,7 +108,6 @@ protected:
 	Island* get_docked_Island() const;
 
 private:
-
     enum Ship_state_e {MOVING_TO_POSITION, STOPPED, DEAD_IN_THE_WATER, MOVING_ON_COURSE, DOCKED, SINKING, SUNK, ON_THE_BOTTOM};
     double fuel_capacity;
 	double fuel;						// Current amount of fuel
@@ -129,18 +118,15 @@ private:
     Point destination;					// Current destination if any
     Island *docked_at;
 
-
-
-
-
 	// Updates position, fuel, and movement_state, assuming 1 time unit (1 hr)
 	void calculate_movement();
     void check_course_speed(double course, double speed);
 
-
-
 	// disallow copy/move, construction or assignment
-
+    Ship(const Ship&) = delete;
+    Ship(Ship&&) = delete;
+    Ship &operator= (const Ship&) = delete;
+    Ship &operator= (Ship &&) = delete;
 };
 
 #endif

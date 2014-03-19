@@ -11,6 +11,5 @@ private:
 	const char* msg;
 };
 
-/* add any of your own declarations here */
 
 #endif

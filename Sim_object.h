@@ -4,7 +4,6 @@
 object's name, and has pure virtual accessor functions for the object's position
 and other information. */
 
-/* *** You may not add any additional classes, structs, functions etc to this file. */
 #include <string>
 
 struct Point;

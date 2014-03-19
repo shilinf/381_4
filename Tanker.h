@@ -16,13 +16,6 @@ fuel capacity and initial amount 100 tons, maximum speed 10., fuel consumption 2
 resistance 0, cargo capacity 1000 tons, initial cargo is 0 tons.
 */
 
-/* 
-This skeleton file shows the required public and protected interface for the class, which you may not modify. 
-If no protected members are shown, there must be none in your version. 
-If any protected or private members are shown here, then your class must also have them and use them as intended.
-You should delete this comment.
-*/
-
 class Island;
 
 class Tanker : public Ship {
@@ -58,6 +51,7 @@ private:
     Island *load_destination;
     Island *unload_destination;
     
+    // private member functions
     void check_no_cargo_destination();
     void start_cycle();
 };

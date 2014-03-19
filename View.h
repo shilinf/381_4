@@ -29,15 +29,6 @@ information, the draw function will print out a map showing the previous objects
 using the new settings.
 */
 
-/* 
-*** This skeleton file shows the required public and protected interface for the class, 
-which you may not modify.
-If no protected members are shown, there must be none in your version. 
-If any protected or private members are shown here, then your class must also have them 
-and use them as intended.
-You should delete this comment.
-*/
-
 class View {
 public:
 	// default constructor sets the default size, scale, and origin, outputs constructor message

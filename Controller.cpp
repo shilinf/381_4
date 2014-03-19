@@ -226,9 +226,6 @@ void Controller::discard_input_remainder()
         ;
 }
 
-
-
-
 Point Controller::read_point()
 {
     double x, y;

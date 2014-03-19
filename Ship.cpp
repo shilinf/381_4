@@ -9,7 +9,10 @@ using std::cout; using std::endl;
 
 
 
-Ship::Ship(const std::string& name_, Point position_, double fuel_capacity_, double maximum_speed_, double fuel_consumption_, int resistance_) : Sim_object(name_), Track_base(position_), fuel_capacity(fuel_capacity_), fuel(fuel_capacity_), maximum_speed(maximum_speed_), fuel_consumption(fuel_consumption_), resistance(resistance_), ship_state(STOPPED)
+Ship::Ship(const std::string& name_, Point position_, double fuel_capacity_,
+           double maximum_speed_, double fuel_consumption_, int resistance_) :
+    Sim_object(name_), Track_base(position_), fuel_capacity(fuel_capacity_), fuel(fuel_capacity_),
+    maximum_speed(maximum_speed_), fuel_consumption(fuel_consumption_), resistance(resistance_), ship_state(STOPPED)
 {
     cout << "Ship " << name_ << " constructed" << endl;
 }
@@ -45,8 +48,6 @@ bool Ship::can_dock(Island* island_ptr) const
 {
     return ship_state == STOPPED && cartesian_distance(island_ptr->get_location(), get_location()) <= 0.1;
 }
-
-
 
 void Ship::describe() const
 {
@@ -156,8 +157,6 @@ void Ship::stop_attack()
     throw Error("Cannot attack!");
 }
 
-
-// Do we need to record the attacker_ptr ??????
 void Ship::receive_hit(int hit_force, Ship* attacker_ptr)
 {
     resistance -= hit_force;
@@ -204,10 +203,6 @@ void Ship::update()
     else if (is_on_the_bottom())
         cout << get_name() << " on the bottom" << endl;
 }
-
-
-
-
 
 
 /*

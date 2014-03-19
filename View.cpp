@@ -119,9 +119,6 @@ void View::clear()
     points.clear();
 }
 
-
-
-
 /* *** Use this function to calculate the subscripts for the cell. */
 
 /* *** This code assumes the specified private member variables. */

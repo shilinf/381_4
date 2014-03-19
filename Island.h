@@ -9,13 +9,6 @@ every update (default is zero). The can also provide or accept fuel, and update 
 accordingly.
 */
 
-/* 
-This skeleton file shows the required public and protected interface for the class, which you may not modify. 
-If no protected members are shown, there must be none in your version. 
-If any protected or private members are shown here, then your class must also have them and use them as intended.
-You should delete this comment.
-*/
-
 class Island : public Sim_object {
 public:
 	// initialize then output constructor message
@@ -46,6 +39,11 @@ private:
     double fuel;
     double production_rate;
 	// forbid  copy/move, construction/assignment
+    
+    Island(const Island &) = delete;
+    Island(Island &&) = delete;
+    Island &operator= (const Island &) = delete;
+    Island &operator= (Island &&) = delete;
 };
 
 #endif
